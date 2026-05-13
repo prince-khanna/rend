@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
+/* ─── Dark theme (default) ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:           #0d0d0b;
+  --surface:      #141412;
+  --surface2:     #1c1c19;
+  --border:       #2c2c26;
+  --border-hover: #3e3e36;
+  --text:         #e8e2d4;
+  --muted:        #6e6860;
+  --accent:       #e2f740;
+  --accent-fg:    #0d0d0b;
+  --danger:       #e85040;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Light theme ───────────────────────────────────────────── */
+.theme-light {
+  --bg:           #f0ebe0;
+  --surface:      #e8e2d6;
+  --surface2:     #ddd8cc;
+  --border:       #c8c0ae;
+  --border-hover: #b8ae9c;
+  --text:         #1e1a12;
+  --muted:        #84786a;
+  --accent:       #c04820;
+  --accent-fg:    #f0ebe0;
+  --danger:       #c02020;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-syne), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
 }
+
+/* Noise overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-hover); }
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.animate-fade-up   { animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-up-1 { animation-delay: 0.05s; }
+.animate-fade-up-2 { animation-delay: 0.12s; }
+.animate-fade-up-3 { animation-delay: 0.20s; }
+.animate-fade-in   { animation: fadeIn 0.4s ease both; }
+.spin              { animation: spin 0.7s linear infinite; }
+
+/* ─── Reusable UI classes ───────────────────────────────────── */
+.link-muted {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.link-muted:hover { color: var(--text); }
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-fg);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: opacity 0.15s;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-syne), sans-serif;
+}
+.btn-accent:hover { opacity: 0.85; }
+.btn-accent:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.input-base {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 14px;
+  font-size: 14px;
+  outline: none;
+  font-family: var(--font-syne), sans-serif;
+  transition: border-color 0.15s;
+}
+.input-base:focus { border-color: var(--accent); }
+.input-base::placeholder { color: var(--muted); }
