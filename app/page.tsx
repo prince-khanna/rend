@@ -38,7 +38,7 @@ export default function LandingPage() {
           border: "1px solid var(--accent)",
           display: "inline-block",
         }}>
-          HTML Hosting
+          HTML & Markdown Hosting
         </div>
 
         <h1 className="animate-fade-up animate-fade-up-1" style={{
@@ -58,7 +58,7 @@ export default function LandingPage() {
           lineHeight: 1.6,
           marginBottom: "48px",
         }}>
-          Upload an HTML file. Get a link. Share it with anyone — no setup, no server.
+          Upload an HTML or Markdown file. Get a link. Share it with anyone — no setup, no server.
         </p>
 
         <div className="animate-fade-up animate-fade-up-3">
@@ -74,7 +74,7 @@ export default function LandingPage() {
         display: "flex",
         justifyContent: "space-between",
       }}>
-        <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "var(--muted)" }}>.html → URL</span>
+        <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "var(--muted)" }}>.html · .md → URL</span>
         <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "var(--muted)" }}>5MB max · public by default</span>
       </footer>
     </div>
