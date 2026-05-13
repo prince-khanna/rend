@@ -13,8 +13,7 @@ export default async function UploadPage() {
 
   return (
     <Sidebar name={displayName} email={user.email ?? ""} initialTheme={initialTheme}>
-      <div style={{
-        padding: "40px",
+      <div className="page-pad" style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -34,10 +33,10 @@ export default async function UploadPage() {
               New page
             </p>
             <h1 style={{ fontWeight: 800, fontSize: "32px", letterSpacing: "-0.02em", margin: 0 }}>
-              Drop your HTML
+              Drop your file
             </h1>
             <p style={{ marginTop: "8px", fontSize: "14px", color: "var(--muted)", lineHeight: 1.5 }}>
-              Upload a .html file — it will be publicly accessible immediately.
+              Upload a .html or .md file — publicly accessible immediately.
             </p>
           </div>
           <UploadForm />

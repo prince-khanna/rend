@@ -23,7 +23,7 @@ export default async function DashboardPage() {
 
   return (
     <Sidebar name={displayName} email={user.email ?? ""} initialTheme={initialTheme}>
-      <div style={{ padding: "40px" }}>
+      <div className="page-pad">
         {/* Pages header + upload */}
         <div style={{
           display: "flex",

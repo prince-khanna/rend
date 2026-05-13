@@ -4,7 +4,7 @@ export default function LandingPage() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <header style={{
-        padding: "24px 40px",
+        padding: "16px clamp(16px, 4vw, 40px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -24,7 +24,7 @@ export default function LandingPage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "80px 40px",
+        padding: "clamp(40px, 8vw, 80px) clamp(20px, 5vw, 40px)",
         textAlign: "center",
       }}>
         <div className="animate-fade-up" style={{
@@ -69,7 +69,7 @@ export default function LandingPage() {
       </main>
 
       <footer style={{
-        padding: "20px 40px",
+        padding: "16px clamp(16px, 4vw, 40px)",
         borderTop: "1px solid var(--border)",
         display: "flex",
         justifyContent: "space-between",

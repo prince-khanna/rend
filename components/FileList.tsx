@@ -43,7 +43,7 @@ export function FileList({ pages, origin }: Props) {
       {pages.map((page, i) => (
         <li
           key={page.id}
-          className="animate-fade-up"
+          className="animate-fade-up file-row"
           style={{
             animationDelay: `${i * 0.04}s`,
             display: "flex",
@@ -91,7 +91,7 @@ export function FileList({ pages, origin }: Props) {
           </div>
 
           {/* Actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+          <div className="file-actions" style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <VisibilityToggle pageId={page.id} isPublic={page.is_public} />
             {page.is_public && <CopyLinkButton url={`${origin}/pages/${page.id}`} />}
             <DeleteButton pageId={page.id} />
