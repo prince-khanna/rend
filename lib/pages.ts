@@ -50,6 +50,20 @@ export async function togglePageVisibility(
   if (error) throw new Error(error.message);
 }
 
+export async function renamePage(
+  id: string,
+  userId: string,
+  name: string
+): Promise<void> {
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase
+    .from("pages")
+    .update({ name })
+    .eq("id", id)
+    .eq("user_id", userId);
+  if (error) throw new Error(error.message);
+}
+
 export async function deletePage(id: string, userId: string): Promise<void> {
   const supabase = await createServerSupabaseClient();
   const { error } = await supabase

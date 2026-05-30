@@ -7,6 +7,7 @@ import { HtmlFrame } from "@/components/HtmlFrame";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { VisibilityToggle } from "@/components/VisibilityToggle";
 import { DeleteButton } from "@/components/DeleteButton";
+import { RenamePageButton } from "@/components/RenamePageButton";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -87,6 +88,7 @@ export default async function PageView({ params }: Props) {
           <CopyLinkButton url={pageUrl} />
           {isOwner && (
             <>
+              <RenamePageButton pageId={page.id} currentName={page.name} />
               <VisibilityToggle pageId={page.id} isPublic={page.is_public} />
               <DeleteButton pageId={page.id} />
             </>

@@ -5,6 +5,7 @@ import type { Page } from "@/lib/types";
 import { VisibilityToggle } from "./VisibilityToggle";
 import { CopyLinkButton } from "./CopyLinkButton";
 import { DeleteButton } from "./DeleteButton";
+import { RenamePageButton } from "./RenamePageButton";
 
 type Props = { pages: Page[]; origin: string };
 
@@ -92,6 +93,7 @@ export function FileList({ pages, origin }: Props) {
 
           {/* Actions */}
           <div className="file-actions" style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+            <RenamePageButton pageId={page.id} currentName={page.name} />
             <VisibilityToggle pageId={page.id} isPublic={page.is_public} />
             {page.is_public && <CopyLinkButton url={`${origin}/pages/${page.id}`} />}
             <DeleteButton pageId={page.id} />

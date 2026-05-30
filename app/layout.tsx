@@ -18,6 +18,9 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Rend",
   description: "Upload, render, and share HTML pages",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
