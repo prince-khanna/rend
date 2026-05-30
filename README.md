@@ -22,6 +22,27 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## API Uploads
+
+Create an API token from **Settings → API tokens**, then upload HTML or Markdown with:
+
+```bash
+curl -X POST https://render.harnessagent.dev/api/v1/pages \
+  -H "Authorization: Bearer rnd_live_your_token_here" \
+  -F "file=@./page.md" \
+  -F "name=Optional page name" \
+  -F "is_public=true"
+```
+
+API uploads are private by default unless `is_public=true` is included. The response includes the page ID plus `page_url` and `render_url`.
+
+Delete a page owned by the token user with:
+
+```bash
+curl -X DELETE https://render.harnessagent.dev/api/v1/pages/page_id_here \
+  -H "Authorization: Bearer rnd_live_your_token_here"
+```
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

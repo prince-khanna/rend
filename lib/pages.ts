@@ -1,10 +1,13 @@
-import { createServerSupabaseClient } from "./supabase-server";
+import { createServerSupabaseClient, createServiceRoleClient } from "./supabase-server";
 import type { Page } from "./types";
 
 export async function insertPage(
-  page: Omit<Page, "created_at">
+  page: Omit<Page, "created_at">,
+  options: { serviceRole?: boolean } = {}
 ): Promise<Page> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = options.serviceRole
+    ? createServiceRoleClient()
+    : await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("pages")
     .insert(page)
@@ -25,8 +28,13 @@ export async function listPagesByUser(userId: string): Promise<Page[]> {
   return data ?? [];
 }
 
-export async function getPageById(id: string): Promise<Page | null> {
-  const supabase = await createServerSupabaseClient();
+export async function getPageById(
+  id: string,
+  options: { serviceRole?: boolean } = {}
+): Promise<Page | null> {
+  const supabase = options.serviceRole
+    ? createServiceRoleClient()
+    : await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("pages")
     .select("*")
@@ -64,8 +72,14 @@ export async function renamePage(
   if (error) throw new Error(error.message);
 }
 
-export async function deletePage(id: string, userId: string): Promise<void> {
-  const supabase = await createServerSupabaseClient();
+export async function deletePage(
+  id: string,
+  userId: string,
+  options: { serviceRole?: boolean } = {}
+): Promise<void> {
+  const supabase = options.serviceRole
+    ? createServiceRoleClient()
+    : await createServerSupabaseClient();
   const { error } = await supabase
     .from("pages")
     .delete()

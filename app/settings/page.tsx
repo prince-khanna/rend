@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { Sidebar } from "@/components/Sidebar";
 import { SettingsForm } from "@/components/SettingsForm";
+import { ApiTokenManager } from "@/components/ApiTokenManager";
 import { redirect } from "next/navigation";
 import type { Theme } from "@/lib/theme";
 
@@ -22,6 +23,7 @@ export default async function SettingsPage() {
           <h1 style={{ fontWeight: 800, fontSize: "28px", letterSpacing: "-0.02em", margin: 0 }}>Settings</h1>
         </div>
         <SettingsForm initialEmail={user.email ?? ""} initialName={displayName} initialTheme={initialTheme} />
+        <ApiTokenManager />
       </div>
     </Sidebar>
   );

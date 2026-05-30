@@ -40,3 +40,12 @@ Rend hosts uploaded HTML or Markdown files as shareable web pages. Use the domai
 - Sign-up uses auto-confirm auth. Do not add an email verification requirement.
 - Users are logged in immediately after sign-up.
 - `/` redirects logged-in users to `/dashboard`; public visitors see the landing page.
+
+## API access
+
+- API integrations use revocable API tokens, not a user's password.
+- Store only token hashes in the database. Show the raw API token exactly once when it is created.
+- Version agent-facing endpoints under `/api/v1`.
+- API uploads use `POST /api/v1/pages` with `Authorization: Bearer <token>` and multipart `file`.
+- API uploads default private unless `is_public=true` is explicitly provided.
+- API deletion uses `DELETE /api/v1/pages/[id]` and must only delete pages owned by the bearer token's user.
