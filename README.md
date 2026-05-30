@@ -43,6 +43,35 @@ curl -X DELETE https://render.harnessagent.dev/api/v1/pages/page_id_here \
   -H "Authorization: Bearer rnd_live_your_token_here"
 ```
 
+Download the original Page source owned by the token user with:
+
+```bash
+curl -L https://render.harnessagent.dev/api/v1/pages/page_id_here/download \
+  -H "Authorization: Bearer rnd_live_your_token_here" \
+  -o page-source
+```
+
+Use `?variant=rendered` to download rendered HTML for Markdown Pages.
+
+## CLI
+
+The `rend` CLI wraps the agent-facing API endpoints.
+
+```bash
+npm link
+rend auth login --token rnd_live_your_token_here
+rend upload ./page.md --name "My Page" --public
+rend u ./page.html --private
+rend download page_id_here --output ./page.md
+rend download page_id_here --rendered --output ./page.html
+rend delete page_id_here
+rend upload help
+rend auth logout
+```
+
+`rend auth login` stores the API token in `~/.rend/config.json`. You can also use
+`REND_API_TOKEN` and `REND_API_URL` for one-off or CI usage.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -1,0 +1,19 @@
+{
+  "name": "@harnessagent/rend",
+  "version": "0.1.0",
+  "description": "Command-line client for Rend Pages.",
+  "license": "MIT",
+  "bin": {
+    "rend": "bin/rend.mjs"
+  },
+  "files": [
+    "bin/rend.mjs",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
