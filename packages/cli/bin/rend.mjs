@@ -22,6 +22,8 @@ function printHelp() {
   rend delete help
   rend download <page-id> [--output <path>] [--rendered] [--api-url <url>]
   rend download help
+  rend list [--api-url <url>]
+  rend list help
 
 Environment:
   REND_API_URL      Override the Rend base URL.
@@ -89,6 +91,19 @@ Notes:
   Use --rendered to download rendered HTML for Markdown Pages.`);
 }
 
+function printListHelp() {
+  console.log(`Usage:
+  rend list [--api-url <url>]
+
+Examples:
+  rend list
+  rend list --api-url http://localhost:3000
+  REND_API_TOKEN=rnd_live_your_token_here rend list
+
+Notes:
+  Lists all Pages owned by the API token user.`);
+}
+
 function printCommandHelp(command) {
   if (command === "auth") {
     printAuthHelp();
@@ -98,6 +113,8 @@ function printCommandHelp(command) {
     printDeleteHelp();
   } else if (command === "download") {
     printDownloadHelp();
+  } else if (command === "list") {
+    printListHelp();
   } else {
     printHelp();
   }
@@ -282,6 +299,25 @@ async function download(pageId, flags) {
   console.log(`Downloaded Page to ${outputPath}`);
 }
 
+async function list(flags) {
+  const response = await request(getApiUrl(flags), "/api/v1/pages");
+  const result = await response.json();
+
+  if (!result.pages || result.pages.length === 0) {
+    console.log("No Pages found.");
+    return;
+  }
+
+  console.log(`Found ${result.pages.length} Page(s):\n`);
+  result.pages.forEach((page) => {
+    console.log(`  ${page.name}`);
+    console.log(`    ID: ${page.id}`);
+    console.log(`    Public: ${page.is_public}`);
+    console.log(`    Created: ${new Date(page.created_at).toLocaleString()}`);
+    console.log();
+  });
+}
+
 async function main() {
   const [command, subcommand, ...rest] = process.argv.slice(2);
 
@@ -308,6 +344,9 @@ async function main() {
   } else if (command === "download") {
     const { flags } = parseArgs(rest);
     await download(subcommand, flags);
+  } else if (command === "list") {
+    const { flags } = parseArgs([subcommand, ...rest].filter(Boolean));
+    await list(flags);
   } else {
     printHelp();
     process.exitCode = 1;

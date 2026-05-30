@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateApiRequest } from "@/lib/api-tokens";
 import { getUploadMaxSize, uploadPage } from "@/lib/page-upload";
+import { listPagesByUser } from "@/lib/pages";
 
 function apiError(code: string, message: string, status: number) {
   return NextResponse.json({ error: { code, message } }, { status });
@@ -18,6 +19,33 @@ function getOrigin(request: NextRequest) {
   const protocol = request.headers.get("x-forwarded-proto") ?? "https";
   const host = request.headers.get("host") ?? "render.harnessagent.dev";
   return `${protocol}://${host}`;
+}
+
+export async function GET(request: NextRequest) {
+  const auth = await authenticateApiRequest(request);
+  if ("error" in auth) {
+    return apiError("unauthorized", auth.error, auth.status);
+  }
+
+  try {
+    const pages = await listPagesByUser(auth.userId);
+    const origin = getOrigin(request);
+
+    return NextResponse.json({
+      pages: pages.map((page) => ({
+        id: page.id,
+        name: page.name,
+        is_public: page.is_public,
+        source_type: page.source_type,
+        created_at: page.created_at,
+        page_url: `${origin}/pages/${page.id}`,
+        render_url: `${origin}/api/render/${page.id}`,
+      })),
+    });
+  } catch (err) {
+    console.error("[api/v1/pages] list error:", err);
+    return apiError("list_failed", (err as Error).message, 500);
+  }
 }
 
 export async function POST(request: NextRequest) {

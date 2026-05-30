@@ -14,6 +14,7 @@ npm install -g @harnessagent/rend
 rend auth login --token rnd_live_your_token_here
 rend upload ./page.md --name "My Page" --public
 rend u ./page.html --private
+rend list
 rend download page_id_here --output ./page.md
 rend download page_id_here --rendered --output ./page.html
 rend delete page_id_here
