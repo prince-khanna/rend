@@ -80,6 +80,7 @@ export function RenamePageButton({ pageId, currentName }: Props) {
         <button
           type="submit"
           disabled={pending}
+          aria-label="Save page name"
           title="Save page name"
           style={{
             background: "var(--accent)",
@@ -102,6 +103,7 @@ export function RenamePageButton({ pageId, currentName }: Props) {
             setName(currentName);
             setEditing(false);
           }}
+          aria-label="Cancel rename"
           title="Cancel rename"
           style={{
             background: "transparent",

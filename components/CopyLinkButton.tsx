@@ -5,15 +5,16 @@ import { useState } from "react";
 type Props = { url: string };
 
 const btnStyle = (copied: boolean): React.CSSProperties => ({
-  background: copied ? "rgba(226,247,64,0.12)" : "transparent",
-  border: `1px solid ${copied ? "var(--accent)" : "var(--border-hover)"}`,
-  color: copied ? "var(--accent)" : "var(--muted)",
+  background: copied ? "var(--tonal-bg)" : "transparent",
+  border: `1px solid ${copied ? "transparent" : "var(--border-hover)"}`,
+  color: copied ? "var(--tonal-fg)" : "var(--muted)",
   padding: "5px 10px",
   fontSize: "11px",
   fontFamily: "var(--font-jetbrains)",
   cursor: "pointer",
   letterSpacing: "0.06em",
-  transition: "all 0.15s",
+  borderRadius: "var(--radius-sm)",
+  transition: "background var(--duration-fast) var(--ease-fluid), border-color var(--duration-fast) var(--ease-fluid), color var(--duration-fast) var(--ease-fluid)",
   whiteSpace: "nowrap",
 });
 

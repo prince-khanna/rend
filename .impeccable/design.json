@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-02T00:00:00Z",
+  "title": "Design System: Rend",
+  "extensions": {
+    "colorMeta": {
+      "bg":            { "role": "neutral",   "displayName": "Rend Black",     "canonical": "oklch(7% 0.005 100)",   "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "surface":       { "role": "neutral",   "displayName": "Deep Surface",   "canonical": "oklch(10% 0.006 100)",  "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "surface2":      { "role": "neutral",   "displayName": "Raised Surface", "canonical": "oklch(13% 0.007 100)",  "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "border":        { "role": "neutral",   "displayName": "Quiet Border",   "canonical": "oklch(20% 0.007 100)",  "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "border-hover":  { "role": "neutral",   "displayName": "Active Border",  "canonical": "oklch(27% 0.007 100)",  "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "text":          { "role": "neutral",   "displayName": "Warm Ash",       "canonical": "oklch(91% 0.01 90)",    "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "muted":         { "role": "neutral",   "displayName": "Faded Ink",      "canonical": "oklch(47% 0.015 75)",   "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "accent":        { "role": "primary",   "displayName": "Signal Yellow",  "canonical": "oklch(93% 0.21 114)",   "tonalRamp": ["#0d1000","#1e2800","#344500","#506800","#738f00","#a8c500","#e2f740","#f0fa90"] },
+      "accent-fg":     { "role": "primary",   "displayName": "Accent Text",    "canonical": "oklch(7% 0.005 100)",   "tonalRamp": ["#050504","#0d0d0b","#141412","#1c1c19","#2c2c26","#3e3e36","#6e6860","#e8e2d4"] },
+      "danger":        { "role": "error",     "displayName": "Signal Red",     "canonical": "oklch(60% 0.19 25)",    "tonalRamp": ["#180400","#3a0c06","#6a1410","#9c201c","#c83030","#e85040","#f08478","#f8c0ba"] },
+      "accent-light":  { "role": "primary",   "displayName": "Ember",          "canonical": "oklch(52% 0.20 36)",    "tonalRamp": ["#180800","#3a1000","#6a1e06","#9c2e12","#c0381a","#c04820","#e07040","#f0a888"] }
+    },
+    "typographyMeta": {
+      "display":   { "displayName": "Display",  "purpose": "Landing page hero only. One per page maximum." },
+      "headline":  { "displayName": "Headline", "purpose": "Page-section headings. text-wrap: balance recommended." },
+      "body":      { "displayName": "Body",     "purpose": "Descriptions and helper text. Max 65ch line length." },
+      "label":     { "displayName": "Label",    "purpose": "Short uppercase eyebrows and status badges. JetBrains Mono. Max 4 words." },
+      "metadata":  { "displayName": "Metadata", "purpose": "Dates, filenames, API tokens, toolbar identifiers. JetBrains Mono, no uppercase transform." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-expo-out",  "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrance animations (fadeUp, fadeIn). Fast out, long tail." },
+      { "name": "ease-standard",  "value": "ease",                            "purpose": "Short state transitions (0.15s color, border, opacity)." },
+      { "name": "spin",           "value": "linear",                          "purpose": "Upload spinner. 0.7s infinite." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "640px", "purpose": "Sidebar collapses to fullscreen drawer below this breakpoint." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action. Signal Yellow fill, Rend Black text, zero radius.",
+      "html": "<button class=\"ds-btn-primary\">+ Upload</button>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap'); .ds-btn-primary { background: #e2f740; color: #0d0d0b; border: none; border-radius: 0; padding: 12px 28px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: opacity 0.15s; display: inline-block; } .ds-btn-primary:hover { opacity: 0.85; } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Compact Button",
+      "kind": "button",
+      "refersTo": "button-primary-compact",
+      "description": "Compact primary action for inline use (dashboard header).",
+      "html": "<button class=\"ds-btn-compact\">+ Upload</button>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap'); .ds-btn-compact { background: #e2f740; color: #0d0d0b; border: none; border-radius: 0; padding: 7px 16px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: opacity 0.15s; display: inline-block; } .ds-btn-compact:hover { opacity: 0.85; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-base",
+      "description": "Standard text/email/password field. Accent border on focus, no radius.",
+      "html": "<div class=\"ds-field\"><input class=\"ds-input\" type=\"email\" placeholder=\"Email address\" /></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400&display=swap'); .ds-field { display: flex; flex-direction: column; } .ds-input { background: #1c1c19; border: 1px solid #2c2c26; color: #e8e2d4; padding: 11px 14px; font-size: 14px; font-family: 'Syne', sans-serif; outline: none; border-radius: 0; transition: border-color 0.15s; width: 100%; } .ds-input:focus { border-color: #e2f740; } .ds-input::placeholder { color: #6e6860; }"
+    },
+    {
+      "name": "Error Block",
+      "kind": "custom",
+      "refersTo": "input-base",
+      "description": "Error message displayed below a field or form action. Danger-tinted.",
+      "html": "<p class=\"ds-error\">Only .html and .md files are accepted.</p>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap'); .ds-error { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e85040; padding: 10px 12px; background: rgba(232,80,64,0.08); border: 1px solid rgba(232,80,64,0.2); border-radius: 0; margin: 0; }"
+    },
+    {
+      "name": "Upload Drop Zone",
+      "kind": "custom",
+      "refersTo": "button-primary",
+      "description": "Drag-and-drop file upload target. Dashed border, accent highlight on drag.",
+      "html": "<div class=\"ds-dropzone\"><div class=\"ds-dropzone-icon\">+</div><div><p class=\"ds-dropzone-title\">Drop .html or .md file here</p><p class=\"ds-dropzone-hint\">or click to browse · max 5MB</p></div></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500&family=JetBrains+Mono:wght@400&display=swap'); .ds-dropzone { border: 1px dashed #3e3e36; background: #141412; cursor: pointer; padding: 60px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; transition: border-color 0.15s, background 0.15s; border-radius: 0; } .ds-dropzone:hover { border-color: #e2f740; background: rgba(226,247,64,0.04); } .ds-dropzone-icon { width: 44px; height: 44px; border: 1px solid #3e3e36; display: flex; align-items: center; justify-content: center; color: #6e6860; font-size: 20px; font-family: 'Syne', sans-serif; font-weight: 400; } .ds-dropzone-title { font-family: 'Syne', sans-serif; font-size: 14px; color: #e8e2d4; font-weight: 500; text-align: center; margin: 0; } .ds-dropzone-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6e6860; margin: 4px 0 0; text-align: center; }"
+    },
+    {
+      "name": "File List Row",
+      "kind": "custom",
+      "refersTo": "nav-item-active",
+      "description": "Page row in the dashboard list. Hover reveals left accent stripe and raised surface.",
+      "html": "<div class=\"ds-file-row\"><div class=\"ds-file-info\"><span class=\"ds-file-name\">my-prototype.html</span><span class=\"ds-file-date\">2 Jun 2026</span></div><div class=\"ds-file-actions\"><button class=\"ds-action-btn\">Copy link</button><button class=\"ds-action-btn ds-action-danger\">Delete</button></div></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap'); .ds-file-row { display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: #141412; border-left: 2px solid transparent; transition: border-color 0.15s, background 0.15s; } .ds-file-row:hover { border-left-color: #e2f740; background: #1c1c19; } .ds-file-info { flex: 1; min-width: 0; } .ds-file-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #e8e2d4; font-weight: 500; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-file-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6e6860; margin-top: 2px; display: block; } .ds-file-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; } .ds-action-btn { background: transparent; border: none; color: #6e6860; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; padding: 4px 6px; transition: color 0.15s; letter-spacing: 0.04em; } .ds-action-btn:hover { color: #e8e2d4; } .ds-action-danger:hover { color: #e85040; }"
+    },
+    {
+      "name": "Nav Item (Active)",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Active sidebar nav link. Raised surface background, Signal Yellow left border.",
+      "html": "<a class=\"ds-nav-item ds-nav-active\" href=\"#\">Pages</a>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600&display=swap'); .ds-nav-item { display: block; padding: 9px 12px; font-family: 'Syne', sans-serif; font-size: 14px; text-decoration: none; border-left: 2px solid transparent; transition: color 0.15s, background 0.15s; } .ds-nav-item { font-weight: 400; color: #6e6860; background: transparent; } .ds-nav-item:hover { color: #e8e2d4; } .ds-nav-active { font-weight: 600; color: #e8e2d4; background: #1c1c19; border-left-color: #e2f740; }"
+    },
+    {
+      "name": "Status Pill",
+      "kind": "chip",
+      "refersTo": "nav-item-default",
+      "description": "Visibility status indicator on the page toolbar. No fill, border only.",
+      "html": "<span class=\"ds-pill\">public</span>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap'); .ds-pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6e6860; letter-spacing: 0.08em; border: 1px solid #2c2c26; padding: 3px 7px; background: transparent; border-radius: 0; display: inline-block; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Layer",
+    "overview": "The UI gets out of the way so the hosted content can speak. Rend is infrastructure: a thin shell of chrome wrapping what's actually published. Every toolbar, nav element, and button exists to serve the content frame, not to establish Rend's own visual presence.\n\nThe system is dark by default because the hosted content — often a white-background HTML document — needs a frame that recedes. The warm near-black background and near-zero chroma neutrals create a substrate the eye can rest on between interactions. The electric chartreuse accent is a utility signal: it fires only when something needs to be found or acted on. Its rarity is deliberate and non-negotiable.\n\nComponents are curt and confident. Nothing asks for attention. A button is a button. Inputs are surfaces, not statements. The monospace type in labels and metadata speaks the same language as curl output and terminal prompts.",
+    "keyCharacteristics": [
+      "Zero-radius everywhere. Sharp edges; no rounding that implies softness.",
+      "Tonal layering for depth: bg → surface → surface2, no shadows anywhere.",
+      "Signal Yellow (#e2f740) fires at most 10% of any screen surface.",
+      "JetBrains Mono reserved for metadata, labels, and technical identifiers; Syne for display and body copy.",
+      "Noise texture at 30% opacity over the body — texture without decoration.",
+      "Two themes: dark (default) and light, both using the same token names."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule",    "body": "Signal Yellow (#e2f740) is not a brand color — it is a utility signal. It appears on ≤10% of any given screen. Using it as fill, decorative element, or general highlight defeats the system. Its power is exactly proportional to its rarity.", "section": "colors" },
+      { "name": "The Warm Void Rule",     "body": "Never substitute #000000 for Rend Black. The faint warm cast (hue ~100, near-zero chroma) is what separates a considered workspace from a cold terminal. Pure black reads as sterile; this system lives in the warm shadow between.", "section": "colors" },
+      { "name": "The Two-Family Rule",    "body": "Syne + JetBrains Mono is the complete typographic system. No third family, no display serif, no accent script.", "section": "typography" },
+      { "name": "The Mono-as-Signal Rule","body": "JetBrains Mono marks technical data, not emphasis. When a sentence feels like it wants a monospace treatment, the copy should be rewritten to expose the data it contains, not the font changed.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule","body": "Surfaces are tonal, not elevated. Reach for the tonal step system first. Reserve dark backdrops for genuine structural elevation: modals, drawers, popovers. Never use box-shadow as a hover effect or card decoration.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Signal Yellow (#e2f740) only for actionable signals and active states. Maximum 10% surface coverage per screen.",
+      "Do use JetBrains Mono for all technical data: dates, page names, API tokens, file type labels, short uppercase section labels.",
+      "Do keep every component at 0px border-radius.",
+      "Do achieve visual depth through the tonal step system (bg → surface → surface2).",
+      "Do use Rend Black (#0d0d0b) as the base, not pure black (#000000).",
+      "Do write error messages in JetBrains Mono inside the danger-tinted error block.",
+      "Do fade the toolbar and nav chrome. The hosted content is the product."
+    ],
+    "donts": [
+      "Don't build anything that looks like a Pastebin or raw hosting tool: gray layout, flat hierarchy, unfinished aesthetic.",
+      "Don't build marketing-heavy surfaces: hero metric templates, gradient showcases, testimonials.",
+      "Don't use green-on-black, CRT scan lines, ASCII art, or retro terminal aesthetics.",
+      "Don't add border-radius to any component.",
+      "Don't use box-shadow for hover effects or decorative depth.",
+      "Don't use Signal Yellow across large surface areas or apply a gradient to it.",
+      "Don't use background-clip: text with a gradient.",
+      "Don't introduce a third typeface.",
+      "Don't use uppercase for full sentences or paragraph copy."
+    ]
+  }
+}

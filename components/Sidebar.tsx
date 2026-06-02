@@ -66,8 +66,9 @@ export function Sidebar({ name, email, initialTheme, children }: Props) {
               color: active ? "var(--text)" : "var(--muted)",
               textDecoration: "none",
               background: active ? "var(--surface2)" : "transparent",
-              borderLeft: `2px solid ${active ? "var(--accent)" : "transparent"}`,
-              transition: "color 0.15s, background 0.15s",
+              borderRadius: "var(--radius-sm)",
+              boxShadow: active ? "var(--shadow-sm)" : "none",
+              transition: "color var(--duration-fast) var(--ease-fluid), background var(--duration-fast) var(--ease-fluid), box-shadow var(--duration-std) var(--ease-fluid)",
             }}>
               {label}
             </Link>
@@ -154,7 +155,7 @@ export function Sidebar({ name, email, initialTheme, children }: Props) {
       {/* Sidebar */}
       <aside
         className={`layout-aside${open ? " sidebar-open" : ""}`}
-        style={{ borderRight: "1px solid var(--border)" }}
+        style={{ borderRight: "1px solid var(--border)", position: "relative" }}
       >
         {sidebarContent}
       </aside>

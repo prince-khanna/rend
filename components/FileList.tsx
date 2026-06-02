@@ -24,6 +24,9 @@ export function FileList({ pages, origin }: Props) {
         flexDirection: "column",
         alignItems: "center",
         gap: "12px",
+        borderRadius: "var(--radius-lg)",
+        background: "var(--surface)",
+        boxShadow: "var(--shadow-sm)",
       }}>
         <p style={{ fontSize: "15px", color: "var(--muted)" }}>No pages yet</p>
         <Link href="/upload" style={{
@@ -40,7 +43,7 @@ export function FileList({ pages, origin }: Props) {
   }
 
   return (
-    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1px" }}>
+    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
       {pages.map((page, i) => (
         <li
           key={page.id}
@@ -52,16 +55,26 @@ export function FileList({ pages, origin }: Props) {
             gap: "16px",
             padding: "14px 16px",
             background: "var(--surface)",
-            borderLeft: "2px solid transparent",
-            transition: "border-color 0.15s, background 0.15s",
+            borderRadius: "var(--radius-md)",
+            transform: "translateY(0)",
+            boxShadow: "var(--shadow-sm)",
+            transition: [
+              "background var(--duration-fast) var(--ease-fluid)",
+              "transform var(--duration-fast) var(--ease-fluid)",
+              "box-shadow var(--duration-std) var(--ease-fluid)",
+            ].join(", "),
           }}
           onMouseOver={e => {
-            (e.currentTarget as HTMLElement).style.borderLeftColor = "var(--accent)";
-            (e.currentTarget as HTMLElement).style.background = "var(--surface2)";
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "var(--surface2)";
+            el.style.transform = "translateY(-2px)";
+            el.style.boxShadow = "var(--shadow-md), var(--shadow-accent)";
           }}
           onMouseOut={e => {
-            (e.currentTarget as HTMLElement).style.borderLeftColor = "transparent";
-            (e.currentTarget as HTMLElement).style.background = "var(--surface)";
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "var(--surface)";
+            el.style.transform = "translateY(0)";
+            el.style.boxShadow = "var(--shadow-sm)";
           }}
         >
           {/* Name + date */}

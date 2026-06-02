@@ -17,6 +17,7 @@ export function DeleteButton({ pageId }: Props) {
   return (
     <button
       onClick={handleDelete}
+      aria-label="Delete page"
       style={{
         background: "transparent",
         border: "1px solid transparent",
@@ -26,7 +27,7 @@ export function DeleteButton({ pageId }: Props) {
         cursor: "pointer",
         transition: "color 0.15s, border-color 0.15s",
         lineHeight: 1,
-        fontFamily: "var(--font-syne)",
+        fontFamily: "var(--font-jetbrains)",
       }}
       onMouseOver={e => {
         e.currentTarget.style.color = "var(--danger)";

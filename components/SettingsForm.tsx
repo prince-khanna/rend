@@ -5,8 +5,8 @@ import { createClient } from "@/lib/supabase";
 import { applyTheme, type Theme } from "@/lib/theme";
 
 const THEMES: { value: Theme; label: string; desc: string }[] = [
-  { value: "dark",   label: "Dark",   desc: "Warm black with electric yellow" },
-  { value: "light",  label: "Light",  desc: "Warm cream with rust accent" },
+  { value: "dark",   label: "Dark",   desc: "Material blue on dark charcoal" },
+  { value: "light",  label: "Light",  desc: "Light blue tonal" },
   { value: "system", label: "System", desc: "Follows your OS preference" },
 ];
 
@@ -39,8 +39,8 @@ function StatusMsg({ msg }: { msg: { type: "ok" | "err"; text: string } | null }
       fontSize: "12px",
       color: ok ? "var(--accent)" : "var(--danger)",
       padding: "10px 12px",
-      background: ok ? "rgba(226,247,64,0.06)" : "rgba(232,80,64,0.08)",
-      border: `1px solid ${ok ? "rgba(226,247,64,0.2)" : "rgba(232,80,64,0.2)"}`,
+      background: ok ? "var(--tonal-bg)" : "var(--surface2)",
+      border: `1px solid ${ok ? "transparent" : "var(--border-hover)"}`,
       marginTop: "12px",
     }}>
       {msg.text}

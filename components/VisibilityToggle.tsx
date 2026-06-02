@@ -25,16 +25,18 @@ export function VisibilityToggle({ pageId, isPublic }: Props) {
     <button
       onClick={toggle}
       disabled={pending}
+      aria-label={current ? "Make page private" : "Make page public"}
       style={{
-        background: "transparent",
-        border: `1px solid ${current ? "rgba(226,247,64,0.3)" : "var(--border-hover)"}`,
-        color: current ? "var(--accent)" : "var(--muted)",
+        background: current ? "var(--tonal-bg)" : "transparent",
+        border: `1px solid ${current ? "transparent" : "var(--border-hover)"}`,
+        color: current ? "var(--tonal-fg)" : "var(--muted)",
         padding: "5px 10px",
         fontSize: "11px",
         fontFamily: "var(--font-jetbrains)",
         cursor: pending ? "not-allowed" : "pointer",
         letterSpacing: "0.06em",
-        transition: "all 0.15s",
+        borderRadius: "var(--radius-sm)",
+        transition: `background var(--duration-fast) var(--ease-fluid), border-color var(--duration-fast) var(--ease-fluid), color var(--duration-fast) var(--ease-fluid)`,
         opacity: pending ? 0.5 : 1,
         whiteSpace: "nowrap",
       }}

@@ -14,7 +14,8 @@ const inputStyle = {
   fontSize: "14px",
   outline: "none",
   fontFamily: "var(--font-syne)",
-  transition: "border-color 0.15s",
+  borderRadius: "var(--radius-sm)",
+  transition: "border-color var(--duration-fast) var(--ease-fluid), box-shadow var(--duration-fast) var(--ease-fluid)",
 };
 
 export default function LoginPage() {
@@ -94,8 +95,8 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               style={inputStyle}
-              onFocus={e => (e.currentTarget.style.borderColor = "var(--accent)")}
-              onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+              onFocus={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 3px oklch(93% 0.21 114 / 0.12)"; }}
+              onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
             />
             <input
               type="password"
@@ -104,8 +105,8 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               style={inputStyle}
-              onFocus={e => (e.currentTarget.style.borderColor = "var(--accent)")}
-              onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+              onFocus={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 3px oklch(93% 0.21 114 / 0.12)"; }}
+              onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
             />
 
             {error && (
@@ -128,7 +129,8 @@ export default function LoginPage() {
                 opacity: loading ? 0.7 : 1,
                 letterSpacing: "0.04em",
                 fontFamily: "var(--font-syne)",
-                transition: "opacity 0.15s",
+                borderRadius: "var(--radius-md)",
+                transition: "opacity var(--duration-fast) var(--ease-fluid), transform var(--duration-fast) var(--ease-fluid), box-shadow var(--duration-std) var(--ease-fluid)",
                 marginTop: "4px",
               }}
             >

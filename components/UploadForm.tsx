@@ -47,7 +47,7 @@ export function UploadForm() {
         onClick={() => inputRef.current?.click()}
         style={{
           border: `1px dashed ${dragging ? "var(--accent)" : "var(--border-hover)"}`,
-          background: dragging ? "rgba(226,247,64,0.04)" : "var(--surface)",
+          background: dragging ? "oklch(93% 0.21 114 / 0.06)" : "var(--surface)",
           cursor: "pointer",
           padding: "60px 40px",
           display: "flex",
@@ -55,7 +55,9 @@ export function UploadForm() {
           alignItems: "center",
           justifyContent: "center",
           gap: "12px",
-          transition: "border-color 0.15s, background 0.15s",
+          borderRadius: "var(--radius-lg)",
+          boxShadow: dragging ? "var(--shadow-accent)" : "var(--shadow-sm)",
+          transition: "border-color var(--duration-fast) var(--ease-fluid), background var(--duration-fast) var(--ease-fluid), box-shadow var(--duration-std) var(--ease-fluid)",
         }}
       >
         {uploading ? (
@@ -79,6 +81,8 @@ export function UploadForm() {
               width: "44px",
               height: "44px",
               border: "1px solid var(--border-hover)",
+              borderRadius: "var(--radius-md)",
+              background: "var(--surface2)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
