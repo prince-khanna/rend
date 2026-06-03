@@ -1,4 +1,4 @@
-# Rend — Product Spec (MVP)
+# Pigeon — Product Spec (MVP)
 
 ## Goal
 A web app where users can upload HTML files, view them rendered, and share them publicly via a unique URL.

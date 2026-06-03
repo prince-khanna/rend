@@ -7,57 +7,57 @@ import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
 const DEFAULT_API_URL = "https://render.harnessagent.dev";
-const CONFIG_DIR = path.join(os.homedir(), ".rend");
+const CONFIG_DIR = path.join(os.homedir(), ".pigeon");
 const CONFIG_FILE = path.join(CONFIG_DIR, "config.json");
 
 function printHelp() {
   console.log(`Usage:
-  rend auth login [--token <token>] [--api-url <url>]
-  rend auth logout
-  rend auth help
-  rend upload <file> [--name <name>] [--public|--private] [--api-url <url>]
-  rend u <file> [--name <name>] [--public|--private] [--api-url <url>]
-  rend upload help
-  rend delete <page-id> [--api-url <url>]
-  rend delete help
-  rend download <page-id> [--output <path>] [--rendered] [--api-url <url>]
-  rend download help
-  rend list [--api-url <url>]
-  rend list help
+  pigeon auth login [--token <token>] [--api-url <url>]
+  pigeon auth logout
+  pigeon auth help
+  pigeon upload <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon u <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon upload help
+  pigeon delete <page-id> [--api-url <url>]
+  pigeon delete help
+  pigeon download <page-id> [--output <path>] [--rendered] [--api-url <url>]
+  pigeon download help
+  pigeon list [--api-url <url>]
+  pigeon list help
 
 Environment:
-  REND_API_URL      Override the Rend base URL.
-  REND_API_TOKEN    Use an API token without saving it.
+  PIGEON_API_URL      Override the Pigeon base URL.
+  PIGEON_API_TOKEN    Use an API token without saving it.
 
-Run \`rend <command> help\` for command-specific examples.`);
+Run \`pigeon <command> help\` for command-specific examples.`);
 }
 
 function printAuthHelp() {
   console.log(`Usage:
-  rend auth login [--token <token>] [--api-url <url>]
-  rend auth logout
+  pigeon auth login [--token <token>] [--api-url <url>]
+  pigeon auth logout
 
 Examples:
-  rend auth login
-  rend auth login --token rnd_live_your_token_here
-  rend auth login --token rnd_live_your_token_here --api-url http://localhost:3000
-  rend auth logout
+  pigeon auth login
+  pigeon auth login --token rnd_live_your_token_here
+  pigeon auth login --token rnd_live_your_token_here --api-url http://localhost:3000
+  pigeon auth logout
 
 Notes:
-  Create API tokens from Settings -> API tokens in Rend.
-  Login stores the token in ~/.rend/config.json.`);
+  Create API tokens from Settings -> API tokens in Pigeon.
+  Login stores the token in ~/.pigeon/config.json.`);
 }
 
 function printUploadHelp() {
   console.log(`Usage:
-  rend upload <file> [--name <name>] [--public|--private] [--api-url <url>]
-  rend u <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon upload <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon u <file> [--name <name>] [--public|--private] [--api-url <url>]
 
 Examples:
-  rend upload ./page.md
-  rend upload ./page.html --name "Launch Notes" --public
-  rend u ./draft.md --private
-  REND_API_TOKEN=rnd_live_your_token_here rend u ./page.md --api-url http://localhost:3000
+  pigeon upload ./page.md
+  pigeon upload ./page.html --name "Launch Notes" --public
+  pigeon u ./draft.md --private
+  PIGEON_API_TOKEN=rnd_live_your_token_here pigeon u ./page.md --api-url http://localhost:3000
 
 Notes:
   API uploads are private by default.
@@ -66,11 +66,11 @@ Notes:
 
 function printDeleteHelp() {
   console.log(`Usage:
-  rend delete <page-id> [--api-url <url>]
+  pigeon delete <page-id> [--api-url <url>]
 
 Examples:
-  rend delete 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
-  REND_API_TOKEN=rnd_live_your_token_here rend delete 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
+  pigeon delete 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
+  PIGEON_API_TOKEN=rnd_live_your_token_here pigeon delete 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
 
 Notes:
   Delete only works for Pages owned by the API token user.
@@ -79,12 +79,12 @@ Notes:
 
 function printDownloadHelp() {
   console.log(`Usage:
-  rend download <page-id> [--output <path>] [--rendered] [--api-url <url>]
+  pigeon download <page-id> [--output <path>] [--rendered] [--api-url <url>]
 
 Examples:
-  rend download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
-  rend download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f --output ./page.md
-  rend download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f --rendered --output ./page.html
+  pigeon download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f
+  pigeon download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f --output ./page.md
+  pigeon download 2ad2e2c2-8c95-4a86-9b4e-df697da9ce4f --rendered --output ./page.html
 
 Notes:
   By default this downloads the original Page source.
@@ -93,12 +93,12 @@ Notes:
 
 function printListHelp() {
   console.log(`Usage:
-  rend list [--api-url <url>]
+  pigeon list [--api-url <url>]
 
 Examples:
-  rend list
-  rend list --api-url http://localhost:3000
-  REND_API_TOKEN=rnd_live_your_token_here rend list
+  pigeon list
+  pigeon list --api-url http://localhost:3000
+  PIGEON_API_TOKEN=rnd_live_your_token_here pigeon list
 
 Notes:
   Lists all Pages owned by the API token user.`);
@@ -169,18 +169,18 @@ function parseArgs(argv) {
 
 function getApiUrl(flags = {}) {
   const config = readConfig();
-  return String(flags.apiUrl || process.env.REND_API_URL || config.apiUrl || DEFAULT_API_URL)
+  return String(flags.apiUrl || process.env.PIGEON_API_URL || config.apiUrl || DEFAULT_API_URL)
     .replace(/\/+$/, "");
 }
 
 function getToken() {
-  return process.env.REND_API_TOKEN || readConfig().token;
+  return process.env.PIGEON_API_TOKEN || readConfig().token;
 }
 
 function requireToken() {
   const token = getToken();
   if (!token) {
-    throw new Error("Run `rend auth login` first or set REND_API_TOKEN.");
+    throw new Error("Run `pigeon auth login` first or set PIGEON_API_TOKEN.");
   }
   return token;
 }
@@ -240,7 +240,7 @@ function logout() {
 }
 
 async function upload(filePath, flags) {
-  if (!filePath) throw new Error("Usage: rend upload <file>");
+  if (!filePath) throw new Error("Usage: pigeon upload <file>");
 
   const resolvedPath = path.resolve(filePath);
   const file = await fs.openAsBlob(resolvedPath);
@@ -267,7 +267,7 @@ async function upload(filePath, flags) {
 }
 
 async function deletePage(pageId, flags) {
-  if (!pageId) throw new Error("Usage: rend delete <page-id>");
+  if (!pageId) throw new Error("Usage: pigeon delete <page-id>");
 
   const response = await request(getApiUrl(flags), `/api/v1/pages/${pageId}`, {
     method: "DELETE",
@@ -282,7 +282,7 @@ function getFilenameFromDisposition(disposition) {
 }
 
 async function download(pageId, flags) {
-  if (!pageId) throw new Error("Usage: rend download <page-id>");
+  if (!pageId) throw new Error("Usage: pigeon download <page-id>");
 
   const query = flags.rendered ? "?variant=rendered" : "";
   const response = await request(
@@ -354,6 +354,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(`rend: ${error.message}`);
+  console.error(`pigeon: ${error.message}`);
   process.exitCode = 1;
 });

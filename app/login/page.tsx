@@ -58,6 +58,9 @@ export default function LoginPage() {
       {/* Top bar */}
       <header style={{ padding: "24px 40px", borderBottom: "1px solid var(--border)" }}>
         <Link href="/" style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
           fontWeight: 800,
           fontSize: "15px",
           letterSpacing: "0.12em",
@@ -65,7 +68,8 @@ export default function LoginPage() {
           color: "var(--text)",
           textDecoration: "none",
         }}>
-          Rend
+          <img src="/icon.png" alt="" width="28" height="28" style={{ borderRadius: "7px", display: "block" }} />
+          Pigeon
         </Link>
       </header>
 

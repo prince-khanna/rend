@@ -16,10 +16,12 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rend",
+  title: "Pigeon",
   description: "Upload, render, and share HTML pages",
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
 };
 

@@ -30,8 +30,9 @@ export function Sidebar({ name, email, initialTheme, children }: Props) {
     <>
       {/* Logo */}
       <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Rend
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <img src="/icon.png" alt="" width="28" height="28" style={{ borderRadius: "7px", display: "block" }} />
+          Pigeon
         </span>
         {/* Close button — mobile only */}
         <button
@@ -124,8 +125,9 @@ export function Sidebar({ name, email, initialTheme, children }: Props) {
 
       {/* Mobile top bar */}
       <div className="mobile-topbar">
-        <span style={{ fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Rend
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <img src="/icon.png" alt="" width="28" height="28" style={{ borderRadius: "7px", display: "block" }} />
+          Pigeon
         </span>
         <button
           onClick={() => setOpen(true)}
