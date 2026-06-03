@@ -1,4 +1,4 @@
-# PRD — Rend (MVP)
+# PRD — Pigeon (MVP)
 
 ## Problem Statement
 
@@ -86,7 +86,7 @@ html_files
 - Any authenticated or anonymous caller can SELECT rows where `is_public = true`.
 - Storage access mirrors the DB policy via Supabase Storage RLS.
 
-### Rending
+### Pigeoning
 - Rendered via `<iframe sandbox="allow-scripts allow-same-origin">` pointing to a signed (or public) Supabase Storage URL.
 - The Storage domain is a different origin from the app — uploaded HTML cannot access the app's cookies, localStorage, or DOM.
 - `allow-scripts` is enabled to support interactive HTML. `allow-forms` and `allow-popups` are excluded to limit attack surface.

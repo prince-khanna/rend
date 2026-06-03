@@ -14,7 +14,7 @@ export function applyTheme(theme: Theme) {
 export const themeScript = `
 (function(){
   try {
-    var t = localStorage.getItem('rend-theme') || 'dark';
+    var t = localStorage.getItem('pigeon-theme') || 'dark';
     var dark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     if (!dark) document.documentElement.classList.add('theme-light');
   } catch(e){}

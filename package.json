@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "bin": {
-    "rend": "./bin/rend.mjs"
+    "pigeon": "./bin/pigeon.mjs"
   },
   "scripts": {
     "dev": "next dev",

@@ -1,4 +1,4 @@
-# Rend — Tech Stack (MVP)
+# Pigeon — Tech Stack (MVP)
 
 ## Stack Overview
 
@@ -75,7 +75,7 @@ create policy "public read"
 
 ---
 
-## Rending — Security
+## Pigeoning — Security
 
 User HTML is rendered in a sandboxed iframe:
 

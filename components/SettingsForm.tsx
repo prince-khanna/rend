@@ -96,7 +96,7 @@ export function SettingsForm({ initialEmail, initialName, initialTheme }: Props)
     setActiveTheme(t);
     // Apply immediately to DOM
     applyTheme(t);
-    localStorage.setItem("rend-theme", t);
+    localStorage.setItem("pigeon-theme", t);
     // Persist to Supabase so it loads correctly next session / other devices
     await supabase.auth.updateUser({ data: { theme: t } });
   }

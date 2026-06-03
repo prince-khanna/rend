@@ -1,5 +1,5 @@
 ---
-name: Rend
+name: Pigeon
 description: Upload an HTML or Markdown file. Get a link.
 colors:
   bg: "#0d0d0b"
@@ -85,13 +85,13 @@ components:
     padding: "9px 12px"
 ---
 
-# Design System: Rend
+# Design System: Pigeon
 
 ## 1. Overview
 
 **Creative North Star: "The Signal Layer"**
 
-The UI gets out of the way so the hosted content can speak. Rend is infrastructure: a thin shell of chrome wrapping what's actually published. Every toolbar, nav element, and button exists to serve the content frame, not to establish Rend's own visual presence. When a page loads inside the iframe, the surrounding tool should be nearly invisible.
+The UI gets out of the way so the hosted content can speak. Pigeon is infrastructure: a thin shell of chrome wrapping what's actually published. Every toolbar, nav element, and button exists to serve the content frame, not to establish Pigeon's own visual presence. When a page loads inside the iframe, the surrounding tool should be nearly invisible.
 
 The system is dark by default because the hosted content — often a white-background HTML document — needs a frame that recedes. The warm near-black background and near-zero chroma neutrals create a substrate the eye can rest on between interactions. The electric chartreuse accent is a utility signal: it fires only when something needs to be found or acted on. Its rarity is deliberate and non-negotiable.
 
@@ -113,7 +113,7 @@ A warm near-black neutral ramp anchored by one electric accent. No secondary or 
 - **Signal Yellow** (`#e2f740`): The only saturated color in the dark theme. Primary action buttons, focus rings, active nav indicators, and short section eyebrow labels. Used on a strict ≤10% surface budget. In the light theme, replaced by **Ember** (`#c04820`), a warm orange-red with the same signal energy.
 
 ### Neutral
-- **Rend Black** (`#0d0d0b`): Body background. Near-black with the faintest warm cast; not pure black. The warmth prevents the sterile terminal look.
+- **Pigeon Black** (`#0d0d0b`): Body background. Near-black with the faintest warm cast; not pure black. The warmth prevents the sterile terminal look.
 - **Deep Surface** (`#141412`): Sidebar, card, and list row backgrounds. One tonal step above bg.
 - **Raised Surface** (`#1c1c19`): Input fields, hover states, active row backgrounds. One more step up.
 - **Quiet Border** (`#2c2c26`): Default dividers and input strokes. Present but not demanding.
@@ -125,7 +125,7 @@ A warm near-black neutral ramp anchored by one electric accent. No secondary or 
 ### Named Rules
 **The One Signal Rule.** Signal Yellow (`#e2f740`) is not a brand color — it is a utility signal. It appears on ≤10% of any given screen. Using it as fill, decorative element, or general highlight defeats the system. Its power is exactly proportional to its rarity.
 
-**The Warm Void Rule.** Never substitute `#000000` for Rend Black. The faint warm cast (hue ~100, near-zero chroma) is what separates a considered workspace from a cold terminal. Pure black reads as sterile; this system lives in the warm shadow between.
+**The Warm Void Rule.** Never substitute `#000000` for Pigeon Black. The faint warm cast (hue ~100, near-zero chroma) is what separates a considered workspace from a cold terminal. Pure black reads as sterile; this system lives in the warm shadow between.
 
 ## 3. Typography
 
@@ -149,7 +149,7 @@ A warm near-black neutral ramp anchored by one electric accent. No secondary or 
 
 ## 4. Elevation
 
-Rend is flat by default. No `box-shadow` declarations exist anywhere in the codebase. Depth is conveyed entirely through the tonal step system: bg (`#0d0d0b`) as the base canvas, surface (`#141412`) as raised content areas, surface2 (`#1c1c19`) as the topmost interactive layer. Three steps. No shadows.
+Pigeon is flat by default. No `box-shadow` declarations exist anywhere in the codebase. Depth is conveyed entirely through the tonal step system: bg (`#0d0d0b`) as the base canvas, surface (`#141412`) as raised content areas, surface2 (`#1c1c19`) as the topmost interactive layer. Three steps. No shadows.
 
 This is the correct choice for a tool whose primary interface element is an iframe hosting external content. Shadows create visual competition with the hosted page. Tonal steps recede.
 
@@ -162,7 +162,7 @@ The single exception is the mobile sidebar overlay: a `rgba(0,0,0,0.5)` backdrop
 ### Buttons
 Primary actions. Curt and confident: no radius, no border, no decoration beyond color.
 - **Shape:** `0px` radius, sharp corners throughout
-- **Primary:** Signal Yellow background (`#e2f740`), Rend Black text (`#0d0d0b`), 700 weight, 0.04em tracking. Full-size: `12px 28px` padding; compact: `7px 16px`
+- **Primary:** Signal Yellow background (`#e2f740`), Pigeon Black text (`#0d0d0b`), 700 weight, 0.04em tracking. Full-size: `12px 28px` padding; compact: `7px 16px`
 - **Hover:** Opacity 0.85. No color shift, no transform.
 - **Disabled:** Opacity 0.5, `not-allowed` cursor.
 - **Ghost / text link (`.link-muted`):** No background. Muted text (`#6e6860`) at rest; hover shifts to body text (`#e8e2d4`). Used for nav footer links and inline actions.
@@ -201,13 +201,13 @@ The 44px chrome frame for hosted content. Designed to disappear.
 - **Do** use JetBrains Mono for all technical data: dates, page names in lists, API tokens, file type labels, short uppercase section labels. Use Syne for all prose and headings.
 - **Do** keep every component at 0px border-radius. The sharpness is a commitment, not a default.
 - **Do** achieve visual depth through the tonal step system (bg → surface → surface2) before considering any shadow.
-- **Do** use Rend Black (`#0d0d0b`) as the base, not pure black (`#000000`). The warm cast is the system.
+- **Do** use Pigeon Black (`#0d0d0b`) as the base, not pure black (`#000000`). The warm cast is the system.
 - **Do** write error messages in JetBrains Mono inside the danger-tinted error block. This is the single pattern for all error states across the product.
 - **Do** fade the toolbar and nav chrome at all times. The hosted content is the product.
 
 ### Don't:
-- **Don't** build anything that looks like a Pastebin or raw hosting tool: gray layout, flat hierarchy, unfinished aesthetic. Rend has a visual opinion.
-- **Don't** build marketing-heavy surfaces: hero metric templates, gradient showcases, testimonials. Rend demonstrates rather than sells.
+- **Don't** build anything that looks like a Pastebin or raw hosting tool: gray layout, flat hierarchy, unfinished aesthetic. Pigeon has a visual opinion.
+- **Don't** build marketing-heavy surfaces: hero metric templates, gradient showcases, testimonials. Pigeon demonstrates rather than sells.
 - **Don't** use green-on-black, CRT scan lines, ASCII art, or retro terminal aesthetics. Signal Yellow on warm dark is a considered choice, not nostalgia.
 - **Don't** add border-radius to any component. Zero-radius is non-negotiable.
 - **Don't** use `box-shadow` for hover effects or decorative depth.

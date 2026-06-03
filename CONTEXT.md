@@ -1,4 +1,4 @@
-# Rend — Domain Glossary
+# Pigeon — Domain Glossary
 
 ## Page
 The core entity. A Page is a file uploaded by a User (HTML or Markdown), stored in object storage as HTML, and rendered in the browser at a permanent URL. A Page has a visibility state (public or private) and belongs to exactly one User.
