@@ -1,13 +1,13 @@
 {
-  "name": "@harnessagent/rend",
+  "name": "@harnessagent/pigeon",
   "version": "0.2.2",
-  "description": "Command-line client for Rend Pages.",
+  "description": "Command-line client for Pigeon Pages.",
   "license": "MIT",
   "bin": {
-    "rend": "bin/rend.mjs"
+    "pigeon": "bin/pigeon.mjs"
   },
   "files": [
-    "bin/rend.mjs",
+    "bin/pigeon.mjs",
     "README.md"
   ],
   "engines": {

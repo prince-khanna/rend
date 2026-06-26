@@ -1,6 +1,6 @@
-# Rend
+# Pigeon
 
-Rend hosts uploaded HTML and Markdown files as shareable pages.
+Pigeon hosts uploaded HTML and Markdown files as shareable pages.
 
 Use it to turn a local document into a permanent URL.
 
@@ -55,22 +55,22 @@ Use `?variant=rendered` to download rendered HTML for Markdown Pages.
 
 ## CLI
 
-The `rend` CLI wraps the agent-facing API endpoints.
+The `pigeon` CLI wraps the agent-facing API endpoints.
 
 ```bash
 npm link
-rend auth login --token rnd_live_your_token_here
-rend upload ./page.md --name "My Page" --public
-rend u ./page.html --private
-rend download page_id_here --output ./page.md
-rend download page_id_here --rendered --output ./page.html
-rend delete page_id_here
-rend upload help
-rend auth logout
+pigeon auth login --token rnd_live_your_token_here
+pigeon upload ./page.md --name "My Page" --public
+pigeon u ./page.html --private
+pigeon download page_id_here --output ./page.md
+pigeon download page_id_here --rendered --output ./page.html
+pigeon delete page_id_here
+pigeon upload help
+pigeon auth logout
 ```
 
-`rend auth login` stores the API token in `~/.rend/config.json`. You can also use
-`REND_API_TOKEN` and `REND_API_URL` for one-off or CI usage.
+`pigeon auth login` stores the API token in `~/.pigeon/config.json`. You can also use
+`PIGEON_API_TOKEN` and `PIGEON_API_URL` for one-off or CI usage.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

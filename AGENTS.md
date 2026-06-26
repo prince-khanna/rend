@@ -6,7 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Project context
 
-Rend hosts uploaded HTML or Markdown files as shareable web pages. Use the domain language below consistently when changing code, docs, routes, database queries, or UI copy.
+Pigeon hosts uploaded HTML or Markdown files as shareable web pages. Use the domain language below consistently when changing code, docs, routes, database queries, or UI copy.
 
 ## Core terminology
 

@@ -52,7 +52,7 @@ export default async function PageView({ params }: Props) {
             transition: "color 0.15s",
             flexShrink: 0,
           }}>
-            ← rend
+            ← pigeon
           </Link>
         )}
 

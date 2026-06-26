@@ -10,8 +10,9 @@ export default function LandingPage() {
         justifyContent: "space-between",
         borderBottom: "1px solid var(--border)",
       }}>
-        <span style={{ fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Rend
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontWeight: 800, fontSize: "15px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <img src="/icon.png" alt="" width="28" height="28" style={{ borderRadius: "7px", display: "block" }} />
+          Pigeon
         </span>
         <Link href="/login" className="link-muted" style={{ fontSize: "13px" }}>
           Sign in →
@@ -41,17 +42,30 @@ export default function LandingPage() {
           HTML & Markdown Hosting
         </div>
 
-        <h1 className="animate-fade-up animate-fade-up-1" style={{
+        <img
+          className="animate-fade-up animate-fade-up-1"
+          src="/icon.png"
+          alt=""
+          width="112"
+          height="112"
+          style={{
+            borderRadius: "24px",
+            display: "block",
+            marginBottom: "28px",
+          }}
+        />
+
+        <h1 className="animate-fade-up animate-fade-up-2" style={{
           fontWeight: 800,
           fontSize: "clamp(64px, 12vw, 140px)",
           lineHeight: 0.92,
           letterSpacing: "-0.03em",
           marginBottom: "36px",
         }}>
-          Rend
+          Pigeon
         </h1>
 
-        <p className="animate-fade-up animate-fade-up-2" style={{
+        <p className="animate-fade-up animate-fade-up-3" style={{
           fontSize: "17px",
           color: "var(--muted)",
           maxWidth: "380px",
