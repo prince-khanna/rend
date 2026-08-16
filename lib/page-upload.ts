@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { marked } from "marked";
+import { renderMarkdownPage } from "./markdown";
 import { insertPage } from "./pages";
 import { uploadFile } from "./storage";
 import type { Page } from "./types";
@@ -20,24 +20,6 @@ export type UploadPageResult = {
 
 export function getUploadMaxSize() {
   return MAX_SIZE;
-}
-
-function wrapMarkdownHtml(bodyHtml: string): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css" />
-  <style>
-    body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }
-    @media (max-width: 767px) { body { padding: 15px; } }
-  </style>
-</head>
-<body class="markdown-body">
-${bodyHtml}
-</body>
-</html>`;
 }
 
 export function getFileKind(fileName: string): "html" | "markdown" | null {
@@ -76,8 +58,7 @@ export async function uploadPage({
 
   if (sourceType === "markdown") {
     const rawText = await file.text();
-    const bodyHtml = await marked(rawText);
-    const fullHtml = wrapMarkdownHtml(bodyHtml);
+    const fullHtml = await renderMarkdownPage(rawText);
     fileToStore = new Blob([fullHtml], { type: "text/html" });
     sourceKey = `${userId}/${id}.md`;
   } else {

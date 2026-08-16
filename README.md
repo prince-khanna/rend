@@ -1,6 +1,7 @@
 # Pigeon
 
-Pigeon hosts uploaded HTML and Markdown files as shareable pages.
+Pigeon hosts uploaded HTML and Markdown files as shareable pages. Markdown Pages
+render fenced `mermaid` blocks as diagrams.
 
 Use it to turn a local document into a permanent URL.
 
