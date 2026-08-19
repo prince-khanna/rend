@@ -3,6 +3,12 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const ACCEPTED_EXTENSIONS = [
+  ".html", ".htm", ".md", ".markdown", ".json", ".yaml", ".yml", ".zip",
+  ".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx", ".py", ".sh", ".bash", ".zsh", ".ps1", ".rb", ".php",
+];
+const ACCEPT_ATTRIBUTE = ACCEPTED_EXTENSIONS.join(",");
+
 export function UploadForm() {
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -12,8 +18,17 @@ export function UploadForm() {
 
   async function submit(file: File) {
     setError(null);
-    if (!file.name.endsWith(".html") && !file.name.endsWith(".md")) { setError("Only .html and .md files are accepted."); return; }
-    if (file.size > 5 * 1024 * 1024) { setError("File exceeds 5MB limit."); return; }
+    const lowerName = file.name.toLowerCase();
+    if (!ACCEPTED_EXTENSIONS.some((extension) => lowerName.endsWith(extension))) {
+      setError("Unsupported source. Choose HTML, Markdown, JSON, YAML, a supported script, or a constrained HTML project ZIP.");
+      return;
+    }
+    if (file.size === 0) { setError("Source cannot be empty."); return; }
+    const isProject = lowerName.endsWith(".zip");
+    if (file.size > (isProject ? 20 : 5) * 1024 * 1024) {
+      setError(`File exceeds the ${isProject ? "20 MiB project archive" : "5 MiB source"} limit.`);
+      return;
+    }
 
     setUploading(true);
     const formData = new FormData();
@@ -93,15 +108,15 @@ export function UploadForm() {
             </div>
             <div style={{ textAlign: "center" }}>
               <p style={{ fontSize: "14px", color: "var(--text)", fontWeight: 500 }}>
-                Drop .html or .md file here
+                Drop a supported Page source here
               </p>
               <p style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "var(--muted)", marginTop: "4px" }}>
-                or click to browse · max 5MB
+                or click to browse · HTML, Markdown, JSON, YAML, scripts, or a static HTML ZIP project
               </p>
             </div>
           </>
         )}
-        <input ref={inputRef} type="file" accept=".html,.md" style={{ display: "none" }} onChange={onChange} />
+        <input ref={inputRef} type="file" accept={ACCEPT_ATTRIBUTE} style={{ display: "none" }} onChange={onChange} />
       </div>
 
       {error && (

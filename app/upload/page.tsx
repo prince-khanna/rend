@@ -36,7 +36,7 @@ export default async function UploadPage() {
               Drop your file
             </h1>
             <p style={{ marginTop: "8px", fontSize: "14px", color: "var(--muted)", lineHeight: 1.5 }}>
-              Upload a .html or .md file — publicly accessible immediately.
+              Upload HTML, Markdown, JSON, YAML, or a supported script. Browser uploads are public immediately; data and script previews never execute source.
             </p>
           </div>
           <UploadForm />

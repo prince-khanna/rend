@@ -61,7 +61,10 @@ Examples:
 
 Notes:
   API uploads are private by default.
-  Supported Page sources are .html and .md.`);
+  Supported Page sources are HTML (.html, .htm), Markdown (.md, .markdown),
+  JSON/YAML (.json, .yaml, .yml), and scripts (.js, .mjs, .cjs, .ts, .tsx,
+  .jsx, .py, .sh, .bash, .zsh, .ps1, .rb, .php), or a constrained .zip HTML project.
+  Data and script previews are escaped and never execute uploaded source.`);
 }
 
 function printDeleteHelp() {
@@ -313,6 +316,7 @@ async function list(flags) {
     console.log(`  ${page.name}`);
     console.log(`    ID: ${page.id}`);
     console.log(`    Public: ${page.is_public}`);
+    console.log(`    Source: ${page.source_format || page.source_type}${page.byte_size == null ? "" : ` (${page.byte_size} bytes)`}`);
     console.log(`    Created: ${new Date(page.created_at).toLocaleString()}`);
     console.log();
   });

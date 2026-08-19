@@ -17,8 +17,13 @@ export async function insertPage(
   return data;
 }
 
-export async function listPagesByUser(userId: string): Promise<Page[]> {
-  const supabase = await createServerSupabaseClient();
+export async function listPagesByUser(
+  userId: string,
+  options: { serviceRole?: boolean } = {}
+): Promise<Page[]> {
+  const supabase = options.serviceRole
+    ? createServiceRoleClient()
+    : await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("pages")
     .select("*")

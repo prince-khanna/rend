@@ -32,21 +32,21 @@
 ## Supabase Setup
 
 ### Storage Bucket
-- Bucket name: `html-files`
-- Public bucket: **no** (files served via signed URLs or policy)
-- RLS policy: owner can read/write their own files; public files readable by all
+- Bucket name: `pages`
+- Public bucket: **no** (Page source and rendered objects are served through authorization-aware routes)
+- RLS policy: owner can read/write their own Pages; public Pages are readable by all
 
 ### Row Level Security (RLS)
 
 ```sql
 -- Users can only insert/update/delete their own rows
 create policy "owner full access"
-  on html_files for all
+  on pages for all
   using (auth.uid() = user_id);
 
 -- Anyone can read public files
 create policy "public read"
-  on html_files for select
+  on pages for select
   using (is_public = true);
 ```
 
@@ -62,7 +62,7 @@ create policy "public read"
   /view/[id]      → public HTML renderer
   /api
     /upload       → handles file upload to Supabase Storage
-    /files/[id]   → toggle visibility, delete
+    /pages/[id]   → render, download, toggle visibility, delete
 
 /lib
   supabase.ts     → Supabase client (browser + server)
@@ -82,7 +82,7 @@ User HTML is rendered in a sandboxed iframe:
 ```tsx
 <iframe
   src={signedUrl}
-  sandbox="allow-scripts allow-same-origin"
+  sandbox="allow-scripts"
   className="w-full h-full border-0"
 />
 ```

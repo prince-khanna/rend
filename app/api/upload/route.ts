@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { uploadPage } from "@/lib/page-upload";
+import { SourceValidationError } from "@/lib/source";
 
 export async function POST(request: NextRequest) {
   const supabase = await createServerSupabaseClient();
@@ -27,15 +28,18 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ id: page.id }, { status: 200 });
   } catch (err) {
-    console.error("[upload] error:", err);
+    console.error("[upload] failed", {
+      code: err instanceof SourceValidationError ? err.code : "upload_failed",
+      errorType: err instanceof Error ? err.name : "unknown",
+    });
     const message = (err as Error).message;
-    const status = message.includes("Only .html and .md")
-      ? 400
-      : message.includes("5MB")
-        ? 413
+    const status = err instanceof SourceValidationError && err.code === "file_too_large"
+      ? 413
+      : err instanceof SourceValidationError
+        ? 400
         : 500;
     return NextResponse.json(
-      { error: message },
+      { error: message, ...(err instanceof SourceValidationError ? { code: err.code } : {}) },
       { status }
     );
   }

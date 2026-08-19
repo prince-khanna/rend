@@ -54,9 +54,22 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  await deletePage(id, user.id);
-  const keysToDelete = [page.storage_key, page.source_key].filter(Boolean) as string[];
-  await deleteFiles(keysToDelete);
-
-  return NextResponse.json({ ok: true });
+  try {
+    const keysToDelete = [...new Set([page.storage_key, page.rendered_key, page.source_key, ...(page.project_asset_keys ?? [])].filter(Boolean))] as string[];
+    // Remove every object first. If cleanup is partial, retain the Page row so
+    // an operator can retry rather than silently converting it into an orphan.
+    await deleteFiles(keysToDelete);
+    await deletePage(id, user.id);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[page-delete] cleanup_failed", {
+      code: "page_cleanup_failed",
+      pageId: id,
+      errorType: err instanceof Error ? err.name : "unknown",
+    });
+    return NextResponse.json(
+      { error: "Page deletion could not complete; one or more owned objects require cleanup retry." },
+      { status: 500 }
+    );
+  }
 }

@@ -100,7 +100,9 @@ export function FileList({ pages, origin }: Props) {
               marginTop: "2px",
               display: "block",
             }}>
-              {formatDate(page.created_at)}
+              {(page.source_format ?? (page.source_type === "markdown" ? "md" : "html")).toUpperCase()}
+              {page.byte_size === null ? "" : ` · ${page.byte_size} B`}
+              {` · ${formatDate(page.created_at)}`}
             </span>
           </div>
 
@@ -108,7 +110,22 @@ export function FileList({ pages, origin }: Props) {
           <div className="file-actions" style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <RenamePageButton pageId={page.id} currentName={page.name} />
             <VisibilityToggle pageId={page.id} isPublic={page.is_public} />
-            {page.is_public && <CopyLinkButton url={`${origin}/pages/${page.id}`} />}
+            <CopyLinkButton url={`${origin}/pages/${page.id}`} />
+            <a
+              href={`/api/pages/${page.id}/download`}
+              download
+              aria-label={`Download source for ${page.name}`}
+              style={{
+                fontFamily: "var(--font-jetbrains)",
+                fontSize: "11px",
+                color: "var(--muted)",
+                textDecoration: "none",
+                border: "1px solid var(--border)",
+                padding: "5px 8px",
+              }}
+            >
+              ↓
+            </a>
             <DeleteButton pageId={page.id} />
           </div>
         </li>

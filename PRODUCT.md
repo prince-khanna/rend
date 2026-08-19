@@ -14,7 +14,7 @@ Two overlapping user types:
 
 ## Product Purpose
 
-Pigeon turns a local HTML or Markdown file into a permanent, shareable URL in one step. No server, no deployment config, no account ceremony. Success looks like: file goes in, link comes out, link always works.
+Pigeon turns a supported local source into a permanent, shareable Page URL in one step. HTML and Markdown render as web pages; JSON, YAML, and scripts render as escaped previews. No server, no deployment config, no account ceremony. Success looks like: source goes in, link comes out, link always works.
 
 ## Brand Personality
 

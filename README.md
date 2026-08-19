@@ -1,7 +1,9 @@
 # Pigeon
 
-Pigeon hosts uploaded HTML and Markdown files as shareable pages. Markdown Pages
-render fenced `mermaid` blocks as diagrams.
+Pigeon hosts uploaded sources as shareable Pages. HTML and Markdown Pages render
+active HTML (including fenced `mermaid` diagrams); JSON, YAML, and supported
+script Pages render escaped, non-executable previews. Every Page retains its
+exact original source for download.
 
 Use it to turn a local document into a permanent URL.
 
@@ -25,7 +27,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## API Uploads
 
-Create an API token from **Settings → API tokens**, then upload HTML or Markdown with:
+Create an API token from **Settings → API tokens**, then upload a supported Page source with:
 
 ```bash
 curl -X POST https://render.harnessagent.dev/api/v1/pages \
@@ -35,7 +37,7 @@ curl -X POST https://render.harnessagent.dev/api/v1/pages \
   -F "is_public=true"
 ```
 
-API uploads are private by default unless `is_public=true` is included. The response includes the page ID plus `page_url` and `render_url`.
+API uploads are private by default unless `is_public=true` is included. Supported sources include HTML, Markdown, JSON, YAML, scripts, and constrained static HTML-project ZIPs. Data and script previews never execute uploaded source. The response includes the Page ID plus `page_url` and `render_url`.
 
 Delete a page owned by the token user with:
 
@@ -52,7 +54,10 @@ curl -L https://render.harnessagent.dev/api/v1/pages/page_id_here/download \
   -o page-source
 ```
 
-Use `?variant=rendered` to download rendered HTML for Markdown Pages.
+Use `?variant=rendered` to download derived rendered HTML where available. Public
+Pages allow public source downloads; private Pages allow downloads only to the
+owner's browser session or API token. The render iframe always uses
+`sandbox="allow-scripts"` without `allow-same-origin`.
 
 ## CLI
 

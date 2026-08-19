@@ -23,9 +23,11 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   }
 
   try {
-    await deletePage(id, auth.userId, { serviceRole: true });
-    const keysToDelete = [page.storage_key, page.source_key].filter(Boolean) as string[];
+    const keysToDelete = [...new Set([page.storage_key, page.rendered_key, page.source_key, ...(page.project_asset_keys ?? [])].filter(Boolean))] as string[];
+    // Keep the database row when object cleanup is incomplete so deletion is
+    // retryable instead of silently leaving orphaned storage objects.
     await deleteFiles(keysToDelete);
+    await deletePage(id, auth.userId, { serviceRole: true });
 
     return NextResponse.json({
       ok: true,
@@ -35,7 +37,11 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       },
     });
   } catch (err) {
-    console.error("[api/v1/pages] delete error:", err);
-    return apiError("delete_failed", (err as Error).message, 500);
+    console.error("[api/v1/pages] delete_failed", {
+      code: "page_cleanup_failed",
+      pageId: id,
+      errorType: err instanceof Error ? err.name : "unknown",
+    });
+    return apiError("delete_failed", "Page deletion could not complete; retry cleanup using the Page id.", 500);
   }
 }

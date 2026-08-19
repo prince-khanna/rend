@@ -1,4 +1,8 @@
-# Pigeon — Product Spec (MVP)
+# Pigeon — Product Spec (MVP, historical)
+
+> Superseded by [`docs/source-sharing-contract.md`](docs/source-sharing-contract.md).
+> The current product entity is a **Page**, Storage uses `pages`, routes use
+> `/pages/[id]`, and the iframe policy is `sandbox="allow-scripts"` only.
 
 ## Goal
 A web app where users can upload HTML files, view them rendered, and share them publicly via a unique URL.

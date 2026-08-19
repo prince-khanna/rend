@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { authenticateApiRequest } from "@/lib/api-tokens";
 import { getUploadMaxSize, uploadPage } from "@/lib/page-upload";
 import { listPagesByUser } from "@/lib/pages";
+import { SourceValidationError } from "@/lib/source";
+import { MAX_PROJECT_ARCHIVE_SIZE } from "@/lib/html-project";
 
 function apiError(code: string, message: string, status: number) {
   return NextResponse.json({ error: { code, message } }, { status });
@@ -28,7 +30,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const pages = await listPagesByUser(auth.userId);
+    const pages = await listPagesByUser(auth.userId, { serviceRole: true });
     const origin = getOrigin(request);
 
     return NextResponse.json({
@@ -37,6 +39,11 @@ export async function GET(request: NextRequest) {
         name: page.name,
         is_public: page.is_public,
         source_type: page.source_type,
+        source_family: page.source_family ?? page.source_type,
+        source_format: page.source_format ?? (page.source_type === "markdown" ? "md" : "html"),
+        original_filename: page.original_filename ?? `${page.name}.${page.source_type === "markdown" ? "md" : "html"}`,
+        byte_size: page.byte_size,
+        source_digest: page.source_digest,
         created_at: page.created_at,
         page_url: `${origin}/pages/${page.id}`,
         render_url: `${origin}/api/render/${page.id}`,
@@ -93,6 +100,11 @@ export async function POST(request: NextRequest) {
           name: page.name,
           is_public: page.is_public,
           source_type: page.source_type,
+          source_family: page.source_family ?? page.source_type,
+          source_format: page.source_format ?? (page.source_type === "markdown" ? "md" : "html"),
+          original_filename: page.original_filename ?? `${page.name}.${page.source_type === "markdown" ? "md" : "html"}`,
+          byte_size: page.byte_size,
+          source_digest: page.source_digest,
           created_at: page.created_at,
           page_url: `${origin}/pages/${page.id}`,
           render_url: `${origin}/api/render/${page.id}`,
@@ -102,14 +114,24 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     const message = (err as Error).message;
-    if (message.includes("Only .html and .md")) {
-      return apiError("unsupported_file_type", message, 400);
+    if (err instanceof SourceValidationError) {
+      if (err.code === "file_too_large") {
+        const limit = file.name.toLowerCase().endsWith(".zip") ? MAX_PROJECT_ARCHIVE_SIZE : getUploadMaxSize();
+        return apiError("file_too_large", `File exceeds ${limit} bytes.`, 413);
+      }
+      if (err.code === "unsupported_file_type" || err.code === "invalid_filename") {
+        return apiError("unsupported_file_type", message, 400);
+      }
+      return apiError("invalid_source", message, 400);
     }
-    if (message.includes("5MB")) {
+    if (message.includes("byte limit") || message.includes("5MB")) {
       return apiError("file_too_large", `File exceeds ${getUploadMaxSize()} bytes.`, 413);
     }
 
-    console.error("[api/v1/pages] upload error:", err);
-    return apiError("upload_failed", message, 500);
+    console.error("[api/v1/pages] upload_failed", {
+      code: "upload_failed",
+      errorType: err instanceof Error ? err.name : "unknown",
+    });
+    return apiError("upload_failed", "Page upload failed.", 500);
   }
 }

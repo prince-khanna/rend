@@ -1,6 +1,6 @@
 # @harnessagent/pigeon
 
-Command-line client for Pigeon Pages.
+Command-line client for Pigeon Pages. Upload HTML, Markdown, JSON, YAML, and supported scripts; data and script previews are escaped and non-executable.
 
 ## Install
 

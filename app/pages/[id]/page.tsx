@@ -69,6 +69,19 @@ export default async function PageView({ params }: Props) {
           {page.name}
         </span>
 
+        {/* Source identity */}
+        <span title={page.source_digest ? `SHA-256: ${page.source_digest}` : (page.original_filename ?? undefined)} style={{
+          fontFamily: "var(--font-jetbrains)",
+          fontSize: "10px",
+          color: "var(--muted)",
+          border: "1px solid var(--border)",
+          padding: "3px 7px",
+          whiteSpace: "nowrap",
+        }}>
+          {(page.source_format ?? (page.source_type === "markdown" ? "md" : "html")).toUpperCase()}
+          {page.byte_size !== null ? ` · ${page.byte_size} B` : ""}
+        </span>
+
         {/* Visibility pill */}
         {!isOwner && (
           <span style={{
@@ -86,6 +99,21 @@ export default async function PageView({ params }: Props) {
         {/* Actions */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
           <CopyLinkButton url={pageUrl} />
+          <a
+            href={`/api/pages/${id}/download`}
+            download
+            style={{
+              fontFamily: "var(--font-jetbrains)",
+              fontSize: "11px",
+              color: "var(--muted)",
+              textDecoration: "none",
+              border: "1px solid var(--border)",
+              padding: "5px 8px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ↓ source
+          </a>
           {isOwner && (
             <>
               <RenamePageButton pageId={page.id} currentName={page.name} />

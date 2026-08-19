@@ -23,8 +23,14 @@ export async function deleteFile(storageKey: string): Promise<void> {
 export async function deleteFiles(keys: string[]): Promise<void> {
   if (keys.length === 0) return;
   const supabase = createServiceRoleClient();
-  const { error } = await supabase.storage.from(BUCKET).remove(keys);
-  if (error) throw new Error(error.message);
+  const failures: string[] = [];
+  for (const key of keys) {
+    const { error } = await supabase.storage.from(BUCKET).remove([key]);
+    if (error) failures.push(`${key}: ${error.message}`);
+  }
+  if (failures.length > 0) {
+    throw new Error(`Failed to remove ${failures.length} Page object(s).`);
+  }
 }
 
 export async function getSignedUrl(storageKey: string): Promise<string> {

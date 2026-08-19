@@ -1,4 +1,9 @@
-# PRD — Pigeon (MVP)
+# PRD — Pigeon (MVP, historical)
+
+> Superseded by [`docs/source-sharing-contract.md`](docs/source-sharing-contract.md)
+> and `docs/file-sharing-plan.md`. The current entity is a Page and the current
+> Storage bucket is `pages`; legacy `html_files`, `/view/[id]`, and
+> `allow-same-origin` references below are retained only as historical context.
 
 ## Problem Statement
 
