@@ -7,6 +7,14 @@ export type SourceFormat =
   | "py" | "sh" | "bash" | "zsh" | "ps1" | "rb" | "php"
   | "zip";
 
+export type Folder = {
+  id: string;
+  user_id: string;
+  parent_id: string | null;
+  name: string;
+  created_at: string;
+};
+
 export type Page = {
   id: string;
   user_id: string;
@@ -25,4 +33,5 @@ export type Page = {
   source_digest: string | null;
   rendered_key: string | null;
   project_asset_keys: string[] | null;
+  folder_id: string | null;
 };

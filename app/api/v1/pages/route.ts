@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
         original_filename: page.original_filename ?? `${page.name}.${page.source_type === "markdown" ? "md" : "html"}`,
         byte_size: page.byte_size,
         source_digest: page.source_digest,
+        folder_id: page.folder_id,
         created_at: page.created_at,
         page_url: `${origin}/pages/${page.id}`,
         render_url: `${origin}/api/render/${page.id}`,
@@ -82,6 +83,8 @@ export async function POST(request: NextRequest) {
   }
 
   const name = formData.get("name");
+  const folderIdValue = formData.get("folder_id");
+  const folderId = folderIdValue ? String(folderIdValue).trim() : null;
 
   try {
     const { page } = await uploadPage({
@@ -89,6 +92,7 @@ export async function POST(request: NextRequest) {
       userId: auth.userId,
       name: typeof name === "string" ? name : null,
       isPublic: explicitPublic ?? false,
+      folderId,
       serviceRoleInsert: true,
     });
     const origin = getOrigin(request);
@@ -105,6 +109,7 @@ export async function POST(request: NextRequest) {
           original_filename: page.original_filename ?? `${page.name}.${page.source_type === "markdown" ? "md" : "html"}`,
           byte_size: page.byte_size,
           source_digest: page.source_digest,
+          folder_id: page.folder_id,
           created_at: page.created_at,
           page_url: `${origin}/pages/${page.id}`,
           render_url: `${origin}/api/render/${page.id}`,
@@ -121,6 +126,9 @@ export async function POST(request: NextRequest) {
       }
       if (err.code === "unsupported_file_type" || err.code === "invalid_filename") {
         return apiError("unsupported_file_type", message, 400);
+      }
+      if (err.code === "invalid_folder") {
+        return apiError("invalid_folder", message, 400);
       }
       return apiError("invalid_source", message, 400);
     }

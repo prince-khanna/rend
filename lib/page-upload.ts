@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { renderMarkdownPage } from "./markdown";
 import { addProjectBase, extractHtmlProject, projectAssetContentType, PROJECT_TOKEN_PLACEHOLDER } from "./html-project";
 import { insertPage } from "./pages";
+import { getFolderById } from "./folders";
 import { deleteFiles, uploadFile } from "./storage";
 import {
   contentTypeForFormat,
@@ -23,6 +24,7 @@ export type UploadPageInput = {
   userId: string;
   name?: string | null;
   isPublic?: boolean;
+  folderId?: string | null;
   serviceRoleInsert?: boolean;
 };
 
@@ -44,9 +46,16 @@ export async function uploadPage({
   userId,
   name,
   isPublic = true,
+  folderId = null,
   serviceRoleInsert = false,
 }: UploadPageInput): Promise<UploadPageResult> {
   validateSourceFilename(file.name);
+  if (folderId) {
+    const folder = await getFolderById(folderId, { serviceRole: serviceRoleInsert });
+    if (!folder || folder.user_id !== userId) {
+      throw new SourceValidationError("Folder not found.", "invalid_folder");
+    }
+  }
   const descriptor = getSourceDescriptor(file.name);
 
   if (!descriptor) {
@@ -124,6 +133,7 @@ export async function uploadPage({
         source_digest: digest,
         rendered_key: renderedKey,
         project_asset_keys: projectAssetEntries.map((asset) => asset.key),
+        folder_id: folderId,
       },
       { serviceRole: serviceRoleInsert }
     );

@@ -2,7 +2,8 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { listPagesByUser } from "@/lib/pages";
-import { FileList } from "@/components/FileList";
+import { listFoldersByUser } from "@/lib/folders";
+import { FolderTree } from "@/components/FolderTree";
 import { Sidebar } from "@/components/Sidebar";
 import { redirect } from "next/navigation";
 import type { Theme } from "@/lib/theme";
@@ -12,7 +13,10 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const pages = await listPagesByUser(user.id);
+  const [pages, folders] = await Promise.all([
+    listPagesByUser(user.id),
+    listFoldersByUser(user.id),
+  ]);
   const initialTheme  = (user.user_metadata?.theme ?? "dark") as Theme;
   const displayName   = (user.user_metadata?.display_name ?? "") as string;
 
@@ -39,6 +43,7 @@ export default async function DashboardPage() {
             </h2>
             <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "var(--muted)" }}>
               {pages.length} {pages.length === 1 ? "page" : "pages"}
+              {folders.length > 0 ? ` · ${folders.length} ${folders.length === 1 ? "folder" : "folders"}` : ""}
             </span>
           </div>
           <Link href="/upload" className="btn-accent" style={{ padding: "7px 16px", fontSize: "13px" }}>
@@ -46,7 +51,7 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        <FileList pages={pages} origin={origin} />
+        <FolderTree folders={folders} pages={pages} origin={origin} />
       </div>
     </Sidebar>
   );

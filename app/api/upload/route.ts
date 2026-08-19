@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
+  const rawFolderId = formData.get("folder_id");
+  const folderId = rawFolderId ? String(rawFolderId).trim() : null;
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -25,6 +27,7 @@ export async function POST(request: NextRequest) {
       file,
       userId: user.id,
       isPublic: true,
+      folderId,
     });
     return NextResponse.json({ id: page.id }, { status: 200 });
   } catch (err) {

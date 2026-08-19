@@ -7,9 +7,13 @@ const storage = vi.hoisted(() => ({
 const pages = vi.hoisted(() => ({
   insertPage: vi.fn(),
 }));
+const folders = vi.hoisted(() => ({
+  getFolderById: vi.fn(),
+}));
 
 vi.mock("./storage", () => storage);
 vi.mock("./pages", () => pages);
+vi.mock("./folders", () => folders);
 
 import { uploadPage } from "./page-upload";
 
@@ -29,6 +33,7 @@ const page = {
   source_digest: "a".repeat(64),
   rendered_key: "user-id/page-id/rendered.html",
   project_asset_keys: [],
+  folder_id: null,
 };
 
 describe("uploadPage lifecycle", () => {
@@ -37,6 +42,13 @@ describe("uploadPage lifecycle", () => {
     pages.insertPage.mockResolvedValue(page);
     storage.uploadFile.mockResolvedValue(undefined);
     storage.deleteFiles.mockResolvedValue(undefined);
+    folders.getFolderById.mockResolvedValue({
+      id: "folder-id",
+      user_id: "user-id",
+      parent_id: null,
+      name: "Reports",
+      created_at: "2025-01-01T00:00:00.000Z",
+    });
   });
 
   it("stores exact data source and an escaped derived preview with durable metadata", async () => {
@@ -58,6 +70,34 @@ describe("uploadPage lifecycle", () => {
       is_public: false,
       source_digest: expect.stringMatching(/^[0-9a-f]{64}$/),
     }), { serviceRole: true });
+  });
+
+  it("assigns a Page to an owned folder", async () => {
+    await uploadPage({
+      file: new File(["<h1>hello</h1>"], "hello.html"),
+      userId: "user-id",
+      folderId: "folder-id",
+    });
+
+    expect(folders.getFolderById).toHaveBeenCalledWith("folder-id", { serviceRole: false });
+    expect(pages.insertPage).toHaveBeenCalledWith(expect.objectContaining({ folder_id: "folder-id" }), { serviceRole: false });
+  });
+
+  it("rejects a folder owned by another user before creating storage objects", async () => {
+    folders.getFolderById.mockResolvedValueOnce({
+      id: "folder-id",
+      user_id: "another-user",
+      parent_id: null,
+      name: "Private",
+      created_at: "2025-01-01T00:00:00.000Z",
+    });
+
+    await expect(uploadPage({
+      file: new File(["<h1>hello</h1>"], "hello.html"),
+      userId: "user-id",
+      folderId: "folder-id",
+    })).rejects.toThrow("Folder not found");
+    expect(storage.uploadFile).not.toHaveBeenCalled();
   });
 
   it("compensates for objects when the Page row cannot be committed", async () => {

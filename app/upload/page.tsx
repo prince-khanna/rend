@@ -1,13 +1,23 @@
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { listFoldersByUser } from "@/lib/folders";
 import { Sidebar } from "@/components/Sidebar";
 import { UploadForm } from "@/components/UploadForm";
 import { redirect } from "next/navigation";
 import type { Theme } from "@/lib/theme";
 
-export default async function UploadPage() {
+type Props = { searchParams: Promise<{ folder?: string }> };
+
+export default async function UploadPage({ searchParams }: Props) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  const [folders, params] = await Promise.all([
+    listFoldersByUser(user.id),
+    searchParams,
+  ]);
+  const initialFolderId = params.folder && folders.some((folder) => folder.id === params.folder)
+    ? params.folder
+    : null;
   const initialTheme = (user.user_metadata?.theme ?? "dark") as Theme;
   const displayName  = (user.user_metadata?.display_name ?? "") as string;
 
@@ -36,10 +46,10 @@ export default async function UploadPage() {
               Drop your file
             </h1>
             <p style={{ marginTop: "8px", fontSize: "14px", color: "var(--muted)", lineHeight: 1.5 }}>
-              Upload HTML, Markdown, JSON, YAML, or a supported script. Browser uploads are public immediately; data and script previews never execute source.
+              Upload HTML, Markdown, JSON, YAML, or a supported script. Choose a destination folder before uploading; browser uploads are public immediately and data/script previews never execute source.
             </p>
           </div>
-          <UploadForm />
+          <UploadForm folders={folders} initialFolderId={initialFolderId} />
         </div>
       </div>
     </Sidebar>

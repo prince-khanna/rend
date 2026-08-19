@@ -15,8 +15,8 @@ function printHelp() {
   pigeon auth login [--token <token>] [--api-url <url>]
   pigeon auth logout
   pigeon auth help
-  pigeon upload <file> [--name <name>] [--public|--private] [--api-url <url>]
-  pigeon u <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon upload <file> [--name <name>] [--folder-id <id>] [--public|--private] [--api-url <url>]
+  pigeon u <file> [--name <name>] [--folder-id <id>] [--public|--private] [--api-url <url>]
   pigeon upload help
   pigeon delete <page-id> [--api-url <url>]
   pigeon delete help
@@ -50,12 +50,13 @@ Notes:
 
 function printUploadHelp() {
   console.log(`Usage:
-  pigeon upload <file> [--name <name>] [--public|--private] [--api-url <url>]
-  pigeon u <file> [--name <name>] [--public|--private] [--api-url <url>]
+  pigeon upload <file> [--name <name>] [--folder-id <id>] [--public|--private] [--api-url <url>]
+  pigeon u <file> [--name <name>] [--folder-id <id>] [--public|--private] [--api-url <url>]
 
 Examples:
   pigeon upload ./page.md
   pigeon upload ./page.html --name "Launch Notes" --public
+  pigeon upload ./page.md --folder-id folder_id_here
   pigeon u ./draft.md --private
   PIGEON_API_TOKEN=rnd_live_your_token_here pigeon u ./page.md --api-url http://localhost:3000
 
@@ -251,6 +252,7 @@ async function upload(filePath, flags) {
   form.set("file", file, path.basename(resolvedPath));
 
   if (flags.name) form.set("name", String(flags.name));
+  if (flags.folderId) form.set("folder_id", String(flags.folderId));
   if (flags.public && flags.private) {
     throw new Error("Use either --public or --private, not both.");
   }

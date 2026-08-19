@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Folder } from "@/lib/types";
 
 const ACCEPTED_EXTENSIONS = [
   ".html", ".htm", ".md", ".markdown", ".json", ".yaml", ".yml", ".zip",
@@ -9,12 +10,26 @@ const ACCEPTED_EXTENSIONS = [
 ];
 const ACCEPT_ATTRIBUTE = ACCEPTED_EXTENSIONS.join(",");
 
-export function UploadForm() {
+type Props = { folders: Folder[]; initialFolderId: string | null };
+
+function folderOptions(folders: Folder[], parentId: string | null = null, depth = 0): Array<{ folder: Folder; depth: number }> {
+  return folders
+    .filter((folder) => folder.parent_id === parentId)
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .flatMap((folder) => [
+      { folder, depth },
+      ...folderOptions(folders, folder.id, depth + 1),
+    ]);
+}
+
+export function UploadForm({ folders, initialFolderId }: Props) {
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [folderId, setFolderId] = useState(initialFolderId ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const options = folderOptions(folders);
 
   async function submit(file: File) {
     setError(null);
@@ -33,12 +48,17 @@ export function UploadForm() {
     setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    const json = await res.json();
-    setUploading(false);
-
-    if (!res.ok) { setError(json.error ?? "Upload failed."); return; }
-    router.push(`/pages/${json.id}`);
+    if (folderId) formData.append("folder_id", folderId);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (!res.ok) { setError(json.error ?? "Upload failed."); return; }
+      router.push(`/pages/${json.id}`);
+    } catch {
+      setError("Upload failed. Check your connection and try again.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   function onDrop(e: React.DragEvent) {
@@ -55,6 +75,25 @@ export function UploadForm() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      {folders.length > 0 && (
+        <label style={{ display: "flex", flexDirection: "column", gap: "7px", fontSize: "12px", color: "var(--muted)" }}>
+          Destination folder
+          <select
+            className="input-base"
+            value={folderId}
+            onChange={(event) => setFolderId(event.target.value)}
+            disabled={uploading}
+            aria-label="Destination folder"
+          >
+            <option value="">Root</option>
+            {options.map(({ folder, depth }) => (
+              <option key={folder.id} value={folder.id}>
+                {"— ".repeat(depth)}{folder.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <div
         onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
         onDragLeave={() => setDragging(false)}
@@ -85,7 +124,6 @@ export function UploadForm() {
               borderRadius: "50%",
               animation: "spin 0.7s linear infinite",
             }} />
-            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             <p style={{ fontFamily: "var(--font-jetbrains)", fontSize: "12px", color: "var(--muted)" }}>
               Uploading…
             </p>

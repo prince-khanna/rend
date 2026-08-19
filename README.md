@@ -34,10 +34,11 @@ curl -X POST https://render.harnessagent.dev/api/v1/pages \
   -H "Authorization: Bearer rnd_live_your_token_here" \
   -F "file=@./page.md" \
   -F "name=Optional page name" \
-  -F "is_public=true"
+  -F "is_public=true" \
+  -F "folder_id=folder_id_here"
 ```
 
-API uploads are private by default unless `is_public=true` is included. Supported sources include HTML, Markdown, JSON, YAML, scripts, and constrained static HTML-project ZIPs. Data and script previews never execute uploaded source. The response includes the Page ID plus `page_url` and `render_url`.
+API uploads are private by default unless `is_public=true` is included. Supported sources include HTML, Markdown, JSON, YAML, scripts, and constrained static HTML-project ZIPs. Data and script previews never execute uploaded source. Pages can be organized into nested folders: create one with `POST /api/v1/folders`, then pass its `folder_id` when uploading. The response includes the Page ID plus `page_url` and `render_url`.
 
 Delete a page owned by the token user with:
 
@@ -67,6 +68,7 @@ The `pigeon` CLI wraps the agent-facing API endpoints.
 npm link
 pigeon auth login --token rnd_live_your_token_here
 pigeon upload ./page.md --name "My Page" --public
+pigeon upload ./page.html --folder-id folder_id_here
 pigeon u ./page.html --private
 pigeon download page_id_here --output ./page.md
 pigeon download page_id_here --rendered --output ./page.html
